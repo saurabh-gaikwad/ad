@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)http://www.vogella.com/tutorials/AndroidTouch/article.html#android-touch -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.5">
+<meta name="author" content="Lars Vogel (c) 2014, 2016 vogella GmbH">
+<title>Handling single and multi touch on Android - Tutorial</title>
+<script src="./Handling single and multi touch on Android - Tutorial_files/ads"></script><script src="./Handling single and multi touch on Android - Tutorial_files/ca-pub-3851443674951530.js.download"></script><script async="" type="text/javascript" src="./Handling single and multi touch on Android - Tutorial_files/gpt.js.download"></script><script type="text/javascript" async="" src="./Handling single and multi touch on Android - Tutorial_files/ga.js.download"></script><script type="text/javascript">window.mod_pagespeed_start = Number(new Date());</script><link rel="stylesheet" href="./Handling single and multi touch on Android - Tutorial_files/css">
+<link rel="stylesheet" href="./Handling single and multi touch on Android - Tutorial_files/A.asciidoctor.css.pagespeed.cf.pHeShcvYJ5.css">
+<link rel="stylesheet" href="./Handling single and multi touch on Android - Tutorial_files/font-awesome.min.css">
+<link rel="stylesheet" href="./Handling single and multi touch on Android - Tutorial_files/A.tutorials,,_AndroidTouch,,_coderay-asciidoctor.css+css,,_articles.css+css,,_header.css,Mcc.cIdgFRvgk2.css.pagespeed.cf.Y2sNco4tEx.css">
+
+
+
+<!-- Google analytics -->
+
+<script type="text/javascript">var _gaq=_gaq||[];_gaq.push(['_setAccount','UA-3967758-1']);_gaq.push(['_setDomainName','vogella.com']);_gaq.push(['_setAllowLinker',true]);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script>
+
+<!-- Lake Quincy Ads Responsive -->
+<script type="text/javascript">var googletag=googletag||{};googletag.cmd=googletag.cmd||[];(function(){var gads=document.createElement('script');gads.async=true;gads.type='text/javascript';var useSSL='https:'==document.location.protocol;gads.src=(useSSL?'https:':'http:')+'//www.googletagservices.com/tag/js/gpt.js';var node=document.getElementsByTagName('script')[0];node.parentNode.insertBefore(gads,node);})();</script>
+
+<script type="text/javascript">googletag.cmd.push(function(){var mapping=googletag.sizeMapping().addSize([0,0],[300,250]).addSize([750,250],[300,250]).addSize([1170,200],[728,90]).build();googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/right',[160,600],'ad-left').addService(googletag.pubads()).setTargeting('left');googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/beforetoc',[[300,250],[728,90]],'ad-beforeTOC').defineSizeMapping(mapping).addService(googletag.pubads()).setTargeting('beforetoc');googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/inbetween01',[[300,250],[728,90]],'ad-inBetween01').defineSizeMapping(mapping).addService(googletag.pubads()).setTargeting('inbetween01');googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/inbetween02',[[300,250],[728,90]],'ad-inBetween02').defineSizeMapping(mapping).addService(googletag.pubads()).setTargeting('inbetween02');googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/inbetween03',[[300,250],[728,90]],'ad-inBetween03').defineSizeMapping(mapping).addService(googletag.pubads()).setTargeting('inbetween03');googletag.defineSlot('/6839/lqm.javaeclipseandroid.site/afterresources',[[300,250],[728,90]],'ad-afterResources').defineSizeMapping(mapping).addService(googletag.pubads()).setTargeting('afterresources');googletag.pubads().enableSingleRequest();googletag.enableServices();});</script>
+
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">window.cookieconsent_options={"message":"We use cookies to personalise ads and to analyse our traffic. We also share information about your use of our site with our advertising and analytics partners. By using this site you agree to our cookie use.","dismiss":"Got it!","learnMore":"See details","link":"http://www.vogella.com/legal.html","theme":"dark-bottom"};</script>
+
+<script type="text/javascript" src="./Handling single and multi touch on Android - Tutorial_files/cookieconsent.min.js.download"></script>
+<!-- End Cookie Consent plugin -->
+
+<!-- Share on Facebook -->
+<script language="javascript">function fbshareCurrentPage(){window.open("https://www.facebook.com/sharer/sharer.php?u="+escape(window.location.href),'','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;}</script>
+
+<!-- Share on Twitter -->
+<script>function tweetCurrentPage(){window.open("https://twitter.com/share?url="+escape(window.location.href)+"&text="+document.title,'','menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;}</script>
+
+<script>function openCloseNav(){if(document.getElementById("mobileTopnav").style.width==="150px"){document.getElementById("mobileTopnav").style.width="0";document.body.style.marginLeft="8px";}else{document.getElementById("mobileTopnav").style.width="150px";document.body.style.marginLeft="160px";}}</script>
+
+<script src="./Handling single and multi touch on Android - Tutorial_files/pubads_impl_139.js.download" async=""></script><link rel="prefetch" href="https://securepubads.g.doubleclick.net/static/glade.js"><link rel="stylesheet" type="text/css" href="./Handling single and multi touch on Android - Tutorial_files/dark-bottom.css"></head><body class="article"><div class="cc_banner-wrapper "><div class="cc_banner cc_container cc_container--open"><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#null" data-cc-event="click:dismiss" target="_blank" class="cc_btn cc_btn_accept_all">Got it!</a><p class="cc_message">We use cookies to personalise ads and to analyse our traffic. We also share information about your use of our site with our advertising and analytics partners. By using this site you agree to our cookie use. <a data-cc-if="options.link" target="_self" class="cc_more_info" href="http://www.vogella.com/legal.html">See details</a></p><a class="cc_logo" target="_blank" href="http://silktide.com/cookieconsent">Cookie Consent plugin for the EU cookie law</a></div></div><div id="mobileHeaderpart">
+    <span onclick="openCloseNav()"><script data-pagespeed-no-defer="">//<![CDATA[
+(function(){var g=this;function h(b,d){var a=b.split("."),c=g;a[0]in c||!c.execScript||c.execScript("var "+a[0]);for(var e;a.length&&(e=a.shift());)a.length||void 0===d?c[e]?c=c[e]:c=c[e]={}:c[e]=d};function l(b){var d=b.length;if(0<d){for(var a=Array(d),c=0;c<d;c++)a[c]=b[c];return a}return[]};function m(b){var d=window;if(d.addEventListener)d.addEventListener("load",b,!1);else if(d.attachEvent)d.attachEvent("onload",b);else{var a=d.onload;d.onload=function(){b.call(this);a&&a.call(this)}}};var n;function p(b,d,a,c,e){this.h=b;this.j=d;this.l=a;this.f=e;this.g={height:window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight,width:window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth};this.i=c;this.b={};this.a=[];this.c={}}function q(b,d){var a,c,e=d.getAttribute("data-pagespeed-url-hash");if(a=e&&!(e in b.c))if(0>=d.offsetWidth&&0>=d.offsetHeight)a=!1;else{c=d.getBoundingClientRect();var f=document.body;a=c.top+("pageYOffset"in window?window.pageYOffset:(document.documentElement||f.parentNode||f).scrollTop);c=c.left+("pageXOffset"in window?window.pageXOffset:(document.documentElement||f.parentNode||f).scrollLeft);f=a.toString()+","+c;b.b.hasOwnProperty(f)?a=!1:(b.b[f]=!0,a=a<=b.g.height&&c<=b.g.width)}a&&(b.a.push(e),b.c[e]=!0)}p.prototype.checkImageForCriticality=function(b){b.getBoundingClientRect&&q(this,b)};h("pagespeed.CriticalImages.checkImageForCriticality",function(b){n.checkImageForCriticality(b)});h("pagespeed.CriticalImages.checkCriticalImages",function(){r(n)});function r(b){b.b={};for(var d=["IMG","INPUT"],a=[],c=0;c<d.length;++c)a=a.concat(l(document.getElementsByTagName(d[c])));if(0!=a.length&&a[0].getBoundingClientRect){for(c=0;d=a[c];++c)q(b,d);a="oh="+b.l;b.f&&(a+="&n="+b.f);if(d=0!=b.a.length)for(a+="&ci="+encodeURIComponent(b.a[0]),c=1;c<b.a.length;++c){var e=","+encodeURIComponent(b.a[c]);131072>=a.length+e.length&&(a+=e)}b.i&&(e="&rd="+encodeURIComponent(JSON.stringify(t())),131072>=a.length+e.length&&(a+=e),d=!0);u=a;if(d){c=b.h;b=b.j;var f;if(window.XMLHttpRequest)f=new XMLHttpRequest;else if(window.ActiveXObject)try{f=new ActiveXObject("Msxml2.XMLHTTP")}catch(k){try{f=new ActiveXObject("Microsoft.XMLHTTP")}catch(v){}}f&&(f.open("POST",c+(-1==c.indexOf("?")?"?":"&")+"url="+encodeURIComponent(b)),f.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),f.send(a))}}}function t(){var b={},d=document.getElementsByTagName("IMG");if(0==d.length)return{};var a=d[0];if(!("naturalWidth"in a&&"naturalHeight"in a))return{};for(var c=0;a=d[c];++c){var e=a.getAttribute("data-pagespeed-url-hash");e&&(!(e in b)&&0<a.width&&0<a.height&&0<a.naturalWidth&&0<a.naturalHeight||e in b&&a.width>=b[e].o&&a.height>=b[e].m)&&(b[e]={rw:a.width,rh:a.height,ow:a.naturalWidth,oh:a.naturalHeight})}return b}var u="";h("pagespeed.CriticalImages.getBeaconData",function(){return u});h("pagespeed.CriticalImages.Run",function(b,d,a,c,e,f){var k=new p(b,d,a,e,f);n=k;c&&m(function(){window.setTimeout(function(){r(k)},0)})});})();pagespeed.CriticalImages.Run('/mod_pagespeed_beacon','http://www.vogella.com/tutorials/AndroidTouch/article.html','BTd7sNKveK',true,false,'U7HC30OnA3A');
+//]]></script><img src="./Handling single and multi touch on Android - Tutorial_files/burger.svg" alt="" data-pagespeed-url-hash="554668011" onload="pagespeed.CriticalImages.checkImageForCriticality(this);"> </span>
+    <div id="mobileLogo">
+        <a title="vogella.com" href="http://www.vogella.com/">
+            <img src="./Handling single and multi touch on Android - Tutorial_files/index_logo.svg" alt="vogella.com" data-pagespeed-url-hash="3884786107" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+        </a>
+    </div>
+</div>
+
+<div id="mobileTopnav" class="sidenav">
+    <a href="http://www.vogella.com/">Home</a>
+    <a class="currentpage" href="http://www.vogella.com/tutorials/">Tutorials</a>
+    <a href="http://www.vogella.com/training/">Training</a>
+    <a href="http://www.vogella.com/consulting/">Consulting</a>
+    <a href="http://www.vogella.com/products/">Products</a>
+    <a href="http://www.vogella.com/books/">Books</a>
+    <a href="http://www.vogella.com/company/">Company</a>
+    <a href="http://www.vogella.com/support.html">Donate</a>
+    <a style="margin-bottom:60px" href="http://www.vogella.com/contact.html">Contact us</a></div>
+
+<div id="headerpart">
+
+	<div id="logo">
+		<a title="vogella.com" href="http://www.vogella.com/">
+			<img src="./Handling single and multi touch on Android - Tutorial_files/xindex_logo.png.pagespeed.ic.lSTHBCgULt.webp" alt="vogella.com" data-pagespeed-url-hash="3884733576" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+		</a>
+	</div> <!-- logo -->
+
+	<div id="topnav">
+		<ul id="home" class="topnav">
+			<li id="home-icon"><a href="http://www.vogella.com/"></a></li>
+			<li class="currentpage"> <a href="http://www.vogella.com/tutorials/">Tutorials</a>
+				<ul>
+					<li><a href="http://www.vogella.com/tutorials/android.html">Android Programming</a></li>
+					<li><a href="http://www.vogella.com/tutorials/eclipseide.html">Eclipse IDE</a></li>
+					<li><a href="http://www.vogella.com/tutorials/eclipse.html">Eclipse RCP/Plug-ins</a></li>
+					<li><a href="http://www.vogella.com/tutorials/web.html">Web</a></li>
+					<li><a href="http://www.vogella.com/tutorials/java.html">Java</a></li>
+					<li><a href="http://www.vogella.com/tutorials/technology.html">Technology</a></li>
+					<li><a href="http://www.vogella.com/tutorials/google.html">Google</a></li>
+					<li><a href="http://www.vogella.com/tutorials/algorithms.html">Algorithms</a></li>
+					<li><a href="http://www.vogella.com/tutorials/designpattern.html">Design Pattern</a></li>
+					<li><a href="http://www.vogella.com/code/index.html">Source Code</a></li>
+				</ul>
+			</li>
+			<li><a href="http://www.vogella.com/training/">Training</a>
+				<ul>
+					<li><a href="http://www.vogella.com/training/eclipse/index.html">Eclipse Development Training</a>
+						<ul>
+							<li><a href="http://www.vogella.com/training/eclipse/eclipsercp.html">Eclipse RCP</a></li>
+							<li><a href="http://www.vogella.com/training/eclipse/tycho.html">Testing and building Eclipse RCP</a></li>
+							<li><a href="http://www.vogella.com/training/eclipse/eclipsercpmigration.html">Eclipse RCP Migration</a></li>
+							<li><a href="http://www.vogella.com/training/eclipse/eclipseplugin.html">Eclipse IDE Plug-in Development</a></li>
+							<li><a href="http://www.vogella.com/training/eclipse/rcpjavaeespring.html">Eclipse RCP with Java EE and Spring</a></li>
+							<li><a href="http://www.vogella.com/training/eclipse/eclipsenattable.html">NatTable</a></li>
+						</ul>
+					</li>
+					<li><a href="http://www.vogella.com/training/android/index.html">Android Development Training</a>
+						<ul>
+							<li><a href="http://www.vogella.com/training/android/androidprofessional.html">Android Professional</a></li>
+							<li><a href="http://www.vogella.com/training/android/androidtesting.html">Android Testing and Appl. Optimization</a></li>
+							<li><a href="http://www.vogella.com/training/android/androidexpert.html">Android Expert</a></li>
+						</ul>
+					</li>
+					<li><a href="http://www.vogella.com/training/git/index.html">Git and Gerrit Training</a></li>
+					<li><a href="http://www.vogella.com/training/programming/index.html">Programming Training</a>
+						<ul>
+							<li><a href="http://www.vogella.com/training/testbuild/javatesting.html">Java test technologies</a></li>
+							<li><a href="http://www.vogella.com/training/programming/java.html">Java</a></li>
+							<li><a href="http://www.vogella.com/training/docker/index.html">Docker Training</a></li>
+							<li><a href="http://www.vogella.com/training/testbuild/maven.html">Apache Maven</a></li>
+							<li><a href="http://www.vogella.com/training/testbuild/gradle.html">Gradle</a></li>
+							<li><a href="http://www.vogella.com/training/programming/groovy.html">Groovy</a></li>
+
+						</ul>
+					</li>
+				</ul>
+			</li>
+
+			<li><a href="http://www.vogella.com/consulting/">Consulting</a></li>
+
+			<li><a href="http://www.vogella.com/downloads/">Downloads</a>
+					<ul>
+					<li><a href="http://www.vogella.com/files/eclipse_cheatsheet.pdf">Eclipse Cheatsheet</a></li>
+					</ul>
+			</li>
+			<li><a href="http://www.vogella.com/books/">Books</a>
+					<ul>
+						<li><a href="http://www.vogella.com/books/eclipsercp.html">Eclipse RCP</a></li>
+						<li><a href="http://www.vogella.com/books/eclipseide.html">Eclipse IDE</a></li>
+						<li><a href="http://www.vogella.com/books/eclipsecontribution.html">Contributing to the Eclipse Project</a></li>
+						<li><a href="http://www.vogella.com/books/git.html">Git</a></li>
+					</ul>
+			</li>
+			<li><a href="http://www.vogella.com/company/">Company</a>
+					<ul>
+						<li><a href="http://www.vogella.com/aboutvogella.html">About us</a></li>
+						<li><a href="http://www.vogella.com/people/index.html">People at vogella</a></li>
+						<li><a href="http://www.vogella.com/customers.html" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;Customers&#39;, &#39;clicked&#39;, &#39;Header&#39;]);">Reference Customers</a></li>
+						<li><a href="http://blog.vogella.com/">Blog</a></li>
+						<li><a href="http://www.vogella.com/jobs/">Jobs</a></li>
+						<li><a href="http://www.vogella.com/faq.html">FAQ</a></li>
+						<li><a href="http://www.vogella.com/legal.html">Legal</a></li>
+					</ul>
+			</li>
+
+			<li><a href="http://www.vogella.com/support.html">Donate</a></li>
+			<li><a href="http://www.vogella.com/contact.html">Contact us</a></li>
+		</ul>
+	</div><!-- topnav -->
+
+	<div id="searchfixed">
+		<form action="http://www.vogella.com/search.html" id="cse-search-box">
+			<div id="searchwrapper">
+
+				<input type="hidden" name="cx" value="partner-pub-3851443674951530:3991491935">
+				<input type="hidden" name="cof" value="FORID:10">
+				<input type="hidden" name="ie" value="UTF-8">
+				<input type="text" placeholder="Search" id="search_field" name="q" size="55">
+				<input type="image" src="./Handling single and multi touch on Android - Tutorial_files/xsrch.png.pagespeed.ic.5JIHxb_e6N.webp" id="search_button" name="sa" alt="Search">
+			</div>
+		</form>
+	</div> <!-- searchfixed -->
+
+</div> <!-- headerpart -->
+
+<div id="leftcol">
+
+	<br>
+	<br>
+
+	<script async="async" src="./Handling single and multi touch on Android - Tutorial_files/adsbygoogle.js.download"></script>
+	<!-- LeftColumn -->
+	<ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-3851443674951530" data-ad-slot="6294971031" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><iframe width="160" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:160px;height:600px;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource.html"></iframe></ins></ins></ins>
+	<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<!-- Responsive Lake Quincy Ads -->
+	<div id="ad-left" data-google-query-id="CK3hn6GLrtUCFRoYjgodNTsK8w">
+		<script type="text/javascript">googletag.cmd.push(function(){googletag.display('ad-left');});</script>
+	<div id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/right_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/right_0" title="3rd party ad content" name="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/right_0" width="160" height="600" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(1).html"></iframe></div></div>
+</div> <!-- leftcolumn -->
+
+<div id="rightcol">
+	<br>
+	<br>
+	<a class="hiring_ads" href="http://www.vogella.com/jobs/" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;vogella Services&#39;, &#39;clicked&#39;, &#39;hiring&#39;]);">NOW Hiring</a>
+
+	<br>
+	<br>
+	<!-- vogellas own advertising for training and books -->
+	<div class="vogella_ads">
+		<h1>Quick links</h1>
+		<ul>
+			<li><a href="http://www.vogella.com/training/eclipse/eclipsercp.html" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;vogella Services&#39;, &#39;clicked&#39;, &#39;next RCP training&#39;]);">09 OCT - RCP Training</a></li>
+			<li><a href="http://www.vogella.com/training/android/androidprofessional.html" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;vogella Services&#39;, &#39;clicked&#39;, &#39;next Android training&#39;]);">23 OCT - Android Development</a></li>
+			<li><a href="http://www.vogella.com/training/" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;vogella Services&#39;, &#39;clicked&#39;, &#39;training&#39;]);">vogella Training</a></li>
+			<li><a href="http://www.vogella.com/books/index.html" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;vogella Services&#39;, &#39;clicked&#39;, &#39;books&#39;]);">vogella Books</a></li>
+		</ul>
+		<h1>Share</h1>
+		<div class="social_media_icons">
+ 			<a href="javascript:tweetCurrentPage()">
+				<img src="data:image/webp;base64,UklGRigCAABXRUJQVlA4TBwCAAAvP8APEE/koI0kRypv4I/jSH7YPRAO2kYSnHH2yrD8obwMpG2Tzr/Tiziitm3k9HlEjsTxO9oK27ZBOubd0Xj+d/e1z9f/fvr6Bn3mjW9r1vRJY04wQjAK5TVnBAcJcLRQhBAQxsvrB9EiwniAC4T5I4xLgPFQChDBCDeyBAEiQGHxgCBACSDCOAK5mwSEljM3jvMtiPFoCSBOpIQAEK4+H585I0C2bdumHV1zxrZtq5ybclVs27adnPnX8T5rn8e8RPQ/bQ6XH5YFPQ6bwwdLfQ4XLHb7YXEA7yFRjVMH9xfLv9PwIguSvGiYKNrky8vPeIiommyDZH4kAsqqK74xMnTInTgIUgwOR0GRfUbFaSFiYL6Kj3NJeHuMiu26ppEPMN/Ap51ivJVxT4XBh14Iqvl815mA141U94dDkMqXR1/i8fIXVfchyBb56qynLAJPf6jag7CKbx2Ph2oL26jahrSb0jXIyusT+imchqyWt+tXlHVBlk55M4TzFOdCWGJQuAfxTwo7IP9hUJQPDcWzBs0vQENJ67dxg6YroSH9ioJpaPlK85c50BI2SNOfoCksdE1zo2HQlvl39YrqlVjojP5nULWSDI3h9VtUziRCX27rNpX37RHQUv6/vW/2kCY2SqGreIZm9loioTGvc59vX07UREBzWMHHgaW985uT3ZXh7xXRePcIwuKABxY7HT5Y6rXbHO4ALAs47TY=" alt="Tweet" title="Tweet" data-pagespeed-url-hash="2195515811" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+			</a>
+
+			<a href="javascript:fbshareCurrentPage()">
+				<img src="data:image/webp;base64,UklGRhQCAABXRUJQVlA4TAgCAAAvf8AfEH/iJpIkR+qqEW8p7yk9fy7vnmDhuG0kRypV9zR2XzapzT8Zd6YdRJKkSFV1DP/e3+grOHDUSJIjRyN7HQP73wN2ZAMUhcklEX7n7/he3/7Pv8718z/NyfVPO4cM3tDb0YXeaH+nnznFiepsJv28mu0QKdaoADqGegymBqIAEEZFOhPUmeeyMmQEwQhA63Psdhp1ZmqgA+gx0ArQqozWjMFjnkwNdhrdv6nB1ACE1Zl7jQiCKgQKqIhWAAgEACzbtk1HL7aTHdtOyrFRPP3vTvGOcd/+KkX0n5HbNo6oKdvP+wbjNbszFAVd8YjPYbzL4k2ANb/tbQZAXPB1eEGdz7AnwJ3DCfI8IZAXjoK8GH6nVO7ezDbHR/kykFQabUQlHpW7FxFi6YtnEWbVlQi1xkm4tZ+EW+1BuBUPwi01F3I9IVc4s7sWcrkHdkMhl9yyqwm7S3pLdllh1xT11uNOJZOC6esrHy3qIOlWdV6lwNJUdYKnleJdnmNgr6YOou6V5hpMPSsZgym18w6YUlMBU2oyYEoN01ehCEx9wxFd7ehN6A3otejl2e3AbkJvQK9FL89uB3YTegN6LXp5djuwm9Ab0GvRy8PE8f93///vm0ccJkivWAQmSK+QDyZIL5cDJkgvu+GH/rRyG4YtCO3pFLAar8PPy2013uXwhGN8YiGX/e0e" alt="Share on Facebook" title="Share on Facebook" data-pagespeed-url-hash="2074413958" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+			</a>
+		</div>
+	</div>
+</div> <!--rightcol-->
+
+
+<div id="header">
+<h1>Handling single and multi touch on Android - Tutorial</h1>
+<div class="details">
+<span id="author" class="author">Lars Vogel (c) 2014, 2016 vogella GmbH</span><br>
+<span id="revnumber">version 1.5,</span>
+<span id="revdate">28.06.2016</span>
+</div>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#android-touch">1. Android Touch</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#prerequisites">2. Prerequisites</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-custom-view-and-touch-events">3. Exercise: Custom view and touch events</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-multitouch">4. Exercise: Multitouch</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-using-scalegesturedetector">5. Exercise: Using ScaleGestureDetector</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#about-this-website">6. About this website</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#links-and-literature">7. Links and Literature</a></li>
+<li><a href="http://www.vogella.com/tutorials/AndroidTouch/article.html#copyright-and-license">Appendix A: Copyright and License</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="quoteblock abstract">
+<blockquote>
+Single and multi touch in Android.
+This tutorial describes how to use the touch API in Android
+applications.
+</blockquote>
+</div>
+<script async="async" src="./Handling single and multi touch on Android - Tutorial_files/adsbygoogle.js.download"></script>
+<!-- Responsive - After Table of Content -->
+<ins class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-3851443674951530" data-ad-slot="4470606330" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:920px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:920px;background-color:transparent"><iframe width="920" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;width:920px;height:90px;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(2).html"></iframe></ins></ins></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="android-touch"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#android-touch">1. Android Touch</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="android-touch-basics"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#android-touch-basics">1.1. Android touch basics</a></h3>
+<div class="paragraph">
+<p>The Android
+standard
+<code>View</code>
+class
+support touch events. You can react to touch events in your
+custom views and your
+activities. Android supports multiple pointers,
+e.g. fingers which are interacting with the screen.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./Handling single and multi touch on Android - Tutorial_files/xandroidtouch10.png.pagespeed.ic.v7VpwDQFrV.webp" alt="Android touch" data-pagespeed-url-hash="2212335604" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+</div>
+</div>
+<div class="paragraph">
+<p>The base class for touch support is the
+<code>MotionEvent</code>
+class which is passed to
+<code>Views</code>
+via the
+<code>onTouchEvent()</code>
+method.</p>
+</div>
+<div class="paragraph">
+<p>To react to
+touch
+events</p>
+</div>
+<div class="paragraph">
+<p>you override the
+<code>onTouchEvent()</code>
+method.</p>
+</div>
+<div class="paragraph">
+<p>The
+<code>MotionEvent</code>
+class
+contains the touch related information, e.g., the number of
+pointers, the X/Y coordinates and size and pressure of each pointer.</p>
+</div>
+<div class="paragraph">
+<p>This method returns
+<code>true</code>
+if the touch event has been handled by the view. Android tries to
+find the deepest view which returns true to handles the touch event.
+If the view is part of another view (parent view), the parent can
+claim the event by returning
+<code>true</code>
+from the
+<code>onInterceptTouchEvent()</code>
+method. This would send an
+<code>MotionEvent.ACTION_CANCEL</code>
+event to the view which received previously the touch events.</p>
+</div>
+<div class="paragraph">
+<p>To react to touch events in an
+activity,
+register an
+<code>OnTouchListener</code>
+for the relevant
+<code>Views</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="single-touch"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#single-touch">1.2. Single touch</a></h3>
+<div class="paragraph">
+<p>If single
+input is used you can
+use the <code>getX()</code>
+and
+<code>getY()</code>
+methods to get the current position of the first finger.</p>
+</div>
+<div class="paragraph">
+<p>Via the
+<code>getAction()</code>
+method
+you receive the action which was performed. The
+<code>MotionEvent</code>
+class provides the following constants to determine the action which
+was performed.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Touch Events</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Event</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_DOWN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New touch started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_MOVE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finger is moving</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_UP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finger went up</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_CANCEL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current event has been canceled, something else took control of the touch event</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_POINTER_DOWN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pointer down (multi-touch)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MotionEvent.ACTION_POINTER_UP</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pointer up (multi-touch)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="multi-touch"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#multi-touch">1.3. Multi touch</a></h3>
+<div class="paragraph">
+<p>Multi-touch is available since
+Android 2.0 and has been improved
+in the version 2.2. This description uses the API as of version 2.2.</p>
+</div>
+<div class="paragraph">
+<p>The
+<code>MotionEvent.ACTION_POINTER_DOWN</code>
+and
+<code>MotionEvent.ACTION_POINTER_UP</code>
+are send starting with the second finger. For the first finger
+<code>MotionEvent.ACTION_DOWN</code>
+and
+<code>MotionEvent.ACTION_UP</code>
+are used.</p>
+</div>
+<div class="paragraph">
+<p>The
+<code>getPointerCount()</code>
+method on
+<code>MotionEvent</code>
+allows you to determine the number of pointers on the device. All
+events and the position of the pointers are included in the instance
+of
+<code>MotionEvent</code>
+which you receive in the
+<code>onTouch()</code>
+method.</p>
+</div>
+<div class="paragraph">
+<p>To track the
+touch events from multiple pointers you have to use the
+<code>MotionEvent.getActionIndex()</code>
+and the
+<code>MotionEvent.getActionMasked()</code>
+methods to identify the index of the pointer and the touch event
+which
+happened for this pointer.</p>
+</div>
+<div class="paragraph">
+<p>This pointer
+index can
+change over time, e.g. if one finger is lifted
+from the device. The stable version of a
+pointer is the
+<em>pointer id</em>,
+which can be determined with the
+<code>getPointerId(pointerIndex)</code>
+method from the
+<code>MotionEvent</code>
+object.</p>
+</div>
+<div class="paragraph">
+<p>The usage if demonstrated in the following code snippet.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+<span class="directive">public</span> <span class="type">boolean</span> onTouchEvent(MotionEvent event) {
+
+        <span class="comment">// get pointer index from the event object</span>
+        <span class="type">int</span> pointerIndex = event.getActionIndex();
+
+        <span class="comment">// get pointer ID</span>
+        <span class="type">int</span> pointerId = event.getPointerId(pointerIndex);
+
+        <span class="comment">// get masked (not specific to a pointer) action</span>
+        <span class="type">int</span> maskedAction = event.getActionMasked();
+
+        <span class="keyword">switch</span> (maskedAction) {
+
+        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:
+        <span class="keyword">case</span> MotionEvent.ACTION_POINTER_DOWN: {
+            <span class="comment">// TODO use data</span>
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">case</span> MotionEvent.ACTION_MOVE: { <span class="comment">// a pointer was moved</span>
+            <span class="comment">// TODO use data</span>
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">case</span> MotionEvent.ACTION_UP:
+        <span class="keyword">case</span> MotionEvent.ACTION_POINTER_UP:
+        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL: {
+            <span class="comment">// TODO use data</span>
+            <span class="keyword">break</span>;
+        }
+        }
+        invalidate();
+
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Multitouch can not be tested on the emulator. You need a real Android device as input device.
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="gesturedetectors"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#gesturedetectors">1.4. GestureDetectors</a></h3>
+<div class="paragraph">
+<p>Android provide the
+<code>GestureDetector</code>
+class which allow to
+consume
+<code>MotionEvents</code>
+and to create
+higher level gesture
+events to listeners.</p>
+</div>
+<div class="paragraph">
+<p>For example the
+<code>ScaleGestureDetector</code>
+class allows to determine the
+predefined gesture of increasing and
+decreasing the size of the object via two fingers.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="prerequisites"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#prerequisites">2. Prerequisites</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following assumes that you have already basic knowledge in
+<a href="http://www.vogella.com/tutorials/Android/article.html"> Android development</a>.</p>
+</div>
+<!-- Non responsive Lake Quincy Ads
+<div data-type="ad" data-publisher="lqm.javaeclipseandroid.site" data-zone="inBetween01" data-format="728x90">
+</div> -->
+
+<!-- Responsive Lake Quincy Ads -->
+<div id="ad-inBetween01" data-google-query-id="CK_hn6GLrtUCFRoYjgodNTsK8w">
+	<script type="text/javascript">googletag.cmd.push(function(){googletag.display('ad-inBetween01');});</script>
+<div id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween01_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween01_0" title="3rd party ad content" name="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween01_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(3).html"></iframe></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="exercise-custom-view-and-touch-events"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-custom-view-and-touch-events">3. Exercise: Custom view and touch events</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="draw-via-touch"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#draw-via-touch">3.1. Draw via touch</a></h3>
+<div class="paragraph">
+<p>This exercise demonstrates the handling of (single) touch events within a custom view.</p>
+</div>
+<div class="paragraph">
+<p>Create an Android project called <em>com.vogella.android.touch.single</em> with the activity called <em>SingleTouchActivity</em>.
+This activity uses a <code>DialogFragment</code> to set the color which is used for drawing.</p>
+</div>
+<div class="paragraph">
+<p>Create the following layout called <code>fragment_colorpicker.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="tag">&lt;LinearLayout</span> <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">"</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">"</span></span>
+    <span class="attribute-name">android:orientation</span>=<span class="string"><span class="delimiter">"</span><span class="content">vertical</span><span class="delimiter">"</span></span> <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+    <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;View</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">40dp</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_margin</span>=<span class="string"><span class="delimiter">"</span><span class="content">20dp</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:background</span>=<span class="string"><span class="delimiter">"</span><span class="content">#ff0000</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/preview</span><span class="delimiter">"</span></span>
+        <span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;SeekBar</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">wrap_content</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/red</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:progress</span>=<span class="string"><span class="delimiter">"</span><span class="content">255</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:max</span>=<span class="string"><span class="delimiter">"</span><span class="content">255</span><span class="delimiter">"</span></span><span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;SeekBar</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">wrap_content</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/green</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:max</span>=<span class="string"><span class="delimiter">"</span><span class="content">255</span><span class="delimiter">"</span></span><span class="tag">/&gt;</span>
+
+    <span class="tag">&lt;SeekBar</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">wrap_content</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/blue</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:max</span>=<span class="string"><span class="delimiter">"</span><span class="content">255</span><span class="delimiter">"</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/LinearLayout&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Create the following <code>TouchEventView</code> class which implements a View which supports single touch.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.vogella.android.touch.single</span>;
+
+<span class="keyword">import</span> <span class="include">android.content.Context</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Canvas</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Color</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Paint</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Path</span>;
+<span class="keyword">import</span> <span class="include">android.util.AttributeSet</span>;
+<span class="keyword">import</span> <span class="include">android.util.Log</span>;
+<span class="keyword">import</span> <span class="include">android.view.GestureDetector</span>;
+<span class="keyword">import</span> <span class="include">android.view.MotionEvent</span>;
+<span class="keyword">import</span> <span class="include">android.view.VelocityTracker</span>;
+<span class="keyword">import</span> <span class="include">android.view.View</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">TouchEventView</span> <span class="directive">extends</span> <span class="predefined-type">View</span> {
+  <span class="directive">private</span> <span class="predefined-type">Paint</span> paint = <span class="keyword">new</span> <span class="predefined-type">Paint</span>();
+  <span class="directive">private</span> Path path = <span class="keyword">new</span> Path();
+  <span class="predefined-type">Context</span> context;
+
+  GestureDetector gestureDetector;
+
+  <span class="directive">public</span> TouchEventView(<span class="predefined-type">Context</span> context, <span class="predefined-type">AttributeSet</span> attrs) {
+    <span class="local-variable">super</span>(context, attrs);
+    gestureDetector = <span class="keyword">new</span> GestureDetector(context, <span class="keyword">new</span> GestureListener());
+    <span class="local-variable">this</span>.context = context;
+
+    paint.setAntiAlias(<span class="predefined-constant">true</span>);
+    paint.setStrokeWidth(<span class="float">6f</span>);
+    paint.setColor(<span class="predefined-type">Color</span>.BLACK);
+
+    paint.setStyle(<span class="predefined-type">Paint</span>.Style.STROKE);
+    paint.setStrokeJoin(<span class="predefined-type">Paint</span>.Join.ROUND);
+  }
+
+  <span class="directive">public</span> <span class="type">void</span> setColor(<span class="type">int</span> r, <span class="type">int</span> g, <span class="type">int</span> b) {
+    <span class="type">int</span> rgb = <span class="predefined-type">Color</span>.rgb(r, g, b);
+    paint.setColor(rgb);
+  }
+
+  <span class="directive">private</span> <span class="type">class</span> <span class="class">GestureListener</span> <span class="directive">extends</span> GestureDetector.SimpleOnGestureListener {
+    <span class="comment">// event when double tap occurs</span>
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">boolean</span> onDoubleTap(MotionEvent e) {
+      <span class="type">float</span> x = e.getX();
+      <span class="type">float</span> y = e.getY();
+
+      <span class="comment">// clean drawing area on double tap</span>
+      path.reset();
+      Log.d(<span class="string"><span class="delimiter">"</span><span class="content">Double Tap</span><span class="delimiter">"</span></span>, <span class="string"><span class="delimiter">"</span><span class="content">Tapped at: (</span><span class="delimiter">"</span></span> + x + <span class="string"><span class="delimiter">"</span><span class="content">,</span><span class="delimiter">"</span></span> + y + <span class="string"><span class="delimiter">"</span><span class="content">)</span><span class="delimiter">"</span></span>);
+
+      <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+  }
+  <span class="annotation">@Override</span>
+  <span class="directive">protected</span> <span class="type">void</span> onDraw(<span class="predefined-type">Canvas</span> canvas) {
+    canvas.drawPath(path, paint);
+  }
+
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">boolean</span> onTouchEvent(MotionEvent event) {
+    <span class="type">float</span> eventX = event.getX();
+    <span class="type">float</span> eventY = event.getY();
+
+    <span class="keyword">switch</span> (event.getAction()) {
+    <span class="keyword">case</span> MotionEvent.ACTION_DOWN:
+      path.moveTo(eventX, eventY);
+      <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    <span class="keyword">case</span> MotionEvent.ACTION_MOVE:
+
+      path.lineTo(eventX, eventY);
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> MotionEvent.ACTION_UP:
+
+      <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+      <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+    }
+
+    <span class="comment">// for demostraction purposes</span>
+    gestureDetector.onTouchEvent(event);
+    <span class="comment">// Schedules a repaint.</span>
+    invalidate();
+    <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Adjust the <code>activity_main.xml</code> layout file to the following.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="tag">&lt;LinearLayout</span> <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">"</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">"</span></span>
+              <span class="attribute-name">android:orientation</span>=<span class="string"><span class="delimiter">"</span><span class="content">vertical</span><span class="delimiter">"</span></span>
+              <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+              <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;com.vogella.android.touch.single.SingleTouchEventView</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:background</span>=<span class="string"><span class="delimiter">"</span><span class="content">@drawable/dwarf</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/drawingview</span><span class="delimiter">"</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;/com.vogella.android.touch.single.SingleTouchEventView&gt;</span>
+<span class="tag">&lt;/LinearLayout&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add this view to your <em>activity</em>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.vogella.android.touch.single</span>;
+
+<span class="keyword">import</span> <span class="include">android.app.Activity</span>;
+<span class="keyword">import</span> <span class="include">android.os.Bundle</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SingleTouchActivity</span> <span class="directive">extends</span> Activity {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> onCreate(Bundle savedInstanceState) {
+        <span class="local-variable">super</span>.onCreate(savedInstanceState);
+        setContentView(<span class="keyword">new</span> SingleTouchEventView(<span class="local-variable">this</span>, <span class="predefined-constant">null</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run your application you will be able to draw on the screen with your finger (or with the mouse in the emulator).</p>
+</div>
+<div class="paragraph">
+<p>Change your coding so that you use a layout definition based on XML.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tbody><tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To use your own view in an XML layout definition you have to use the full-qualified class name (class including package information).</p>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="allow-to-pick-the-line-width"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#allow-to-pick-the-line-width">3.2. Allow to pick the line width</a></h3>
+<div class="paragraph">
+<p>Add a menu to your application</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="tag">&lt;menu</span> <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">"</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">"</span></span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;item</span> <span class="attribute-name">android:title</span>=<span class="string"><span class="delimiter">"</span><span class="content">Pick pen</span><span class="delimiter">"</span></span> <span class="attribute-name">android:id</span>=<span class="string"><span class="delimiter">"</span><span class="content">@+id/action_pickpen</span><span class="delimiter">"</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/menu&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tracking"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#tracking">3.3. Tracking</a></h3>
+<div class="paragraph">
+<p>Add code to your drawing example so that the current position of a finger is marked via a circle.
+To draw a circle you can use the <code>addCircle(x, y, 50, Path.Direction.CW)</code> method call on a <code>Path</code> or use the canvas element directly.</p>
+</div>
+<div class="paragraph">
+<p>Make sure that only the current position is highlighted with a circle.
+The circle should appears as soon as the finger goes down and vanish once the finger goes up.</p>
+</div>
+<div class="paragraph">
+<p>The result should look like the following.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./Handling single and multi touch on Android - Tutorial_files/xdrawing_result10.png.pagespeed.ic.jAFxcaV_rf.webp" alt="Activity showing the drawing View" data-pagespeed-url-hash="3395728410" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="exercise-multitouch"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-multitouch">4. Exercise: Multitouch</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this exercise you create a view which support multitouch and
+allows
+you to track several fingers on your device. On the Android
+emulator
+you can only simulate singletouch with the mouse.</p>
+</div>
+<div class="paragraph">
+<p>Create an Android project called <em>com.vogella.android.multitouch</em>
+with an activity
+called
+<em>MainActivity</em>.</p>
+</div>
+<div class="paragraph">
+<p>Create the following
+<code>MultitouchView</code>
+class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.vogella.android.multitouch</span>;
+
+<span class="keyword">import</span> <span class="include">android.content.Context</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Canvas</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Color</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Paint</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.PointF</span>;
+<span class="keyword">import</span> <span class="include">android.util.AttributeSet</span>;
+<span class="keyword">import</span> <span class="include">android.util.SparseArray</span>;
+<span class="keyword">import</span> <span class="include">android.view.MotionEvent</span>;
+<span class="keyword">import</span> <span class="include">android.view.View</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MultitouchView</span> <span class="directive">extends</span> <span class="predefined-type">View</span> {
+
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> SIZE = <span class="integer">60</span>;
+
+    <span class="directive">private</span> SparseArray&lt;PointF&gt; mActivePointers;
+    <span class="directive">private</span> <span class="predefined-type">Paint</span> mPaint;
+    <span class="directive">private</span> <span class="type">int</span><span class="type">[]</span> colors = { <span class="predefined-type">Color</span>.BLUE, <span class="predefined-type">Color</span>.GREEN, <span class="predefined-type">Color</span>.MAGENTA,
+            <span class="predefined-type">Color</span>.BLACK, <span class="predefined-type">Color</span>.CYAN, <span class="predefined-type">Color</span>.GRAY, <span class="predefined-type">Color</span>.RED, <span class="predefined-type">Color</span>.DKGRAY,
+            <span class="predefined-type">Color</span>.LTGRAY, <span class="predefined-type">Color</span>.YELLOW };
+
+    <span class="directive">private</span> <span class="predefined-type">Paint</span> textPaint;
+
+
+    <span class="directive">public</span> MultitouchView(<span class="predefined-type">Context</span> context, <span class="predefined-type">AttributeSet</span> attrs) {
+        <span class="local-variable">super</span>(context, attrs);
+        initView();
+    }
+
+    <span class="directive">private</span> <span class="type">void</span> initView() {
+        mActivePointers = <span class="keyword">new</span> SparseArray&lt;PointF&gt;();
+        mPaint = <span class="keyword">new</span> <span class="predefined-type">Paint</span>(<span class="predefined-type">Paint</span>.ANTI_ALIAS_FLAG);
+        <span class="comment">// set painter color to a color you like</span>
+        mPaint.setColor(<span class="predefined-type">Color</span>.BLUE);
+        mPaint.setStyle(<span class="predefined-type">Paint</span>.Style.FILL_AND_STROKE);
+        textPaint = <span class="keyword">new</span> <span class="predefined-type">Paint</span>(<span class="predefined-type">Paint</span>.ANTI_ALIAS_FLAG);
+        textPaint.setTextSize(<span class="integer">20</span>);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">boolean</span> onTouchEvent(MotionEvent event) {
+
+        <span class="comment">// get pointer index from the event object</span>
+        <span class="type">int</span> pointerIndex = event.getActionIndex();
+
+        <span class="comment">// get pointer ID</span>
+        <span class="type">int</span> pointerId = event.getPointerId(pointerIndex);
+
+        <span class="comment">// get masked (not specific to a pointer) action</span>
+        <span class="type">int</span> maskedAction = event.getActionMasked();
+
+        <span class="keyword">switch</span> (maskedAction) {
+
+        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:
+        <span class="keyword">case</span> MotionEvent.ACTION_POINTER_DOWN: {
+            <span class="comment">// We have a new pointer. Lets add it to the list of pointers</span>
+
+            PointF f = <span class="keyword">new</span> PointF();
+            f.x = event.getX(pointerIndex);
+            f.y = event.getY(pointerIndex);
+            mActivePointers.put(pointerId, f);
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">case</span> MotionEvent.ACTION_MOVE: { <span class="comment">// a pointer was moved</span>
+            <span class="keyword">for</span> (<span class="type">int</span> size = event.getPointerCount(), i = <span class="integer">0</span>; i &lt; size; i++) {
+                PointF point = mActivePointers.get(event.getPointerId(i));
+                <span class="keyword">if</span> (point != <span class="predefined-constant">null</span>) {
+                    point.x = event.getX(i);
+                    point.y = event.getY(i);
+                }
+            }
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">case</span> MotionEvent.ACTION_UP:
+        <span class="keyword">case</span> MotionEvent.ACTION_POINTER_UP:
+        <span class="keyword">case</span> MotionEvent.ACTION_CANCEL: {
+            mActivePointers.remove(pointerId);
+            <span class="keyword">break</span>;
+        }
+        }
+        invalidate();
+
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> onDraw(<span class="predefined-type">Canvas</span> canvas) {
+        <span class="local-variable">super</span>.onDraw(canvas);
+
+        <span class="comment">// draw all pointers</span>
+        <span class="keyword">for</span> (<span class="type">int</span> size = mActivePointers.size(), i = <span class="integer">0</span>; i &lt; size; i++) {
+            PointF point = mActivePointers.valueAt(i);
+            <span class="keyword">if</span> (point != <span class="predefined-constant">null</span>)
+                mPaint.setColor(colors[i % <span class="integer">9</span>]);
+            canvas.drawCircle(point.x, point.y, SIZE, mPaint);
+        }
+        canvas.drawText(<span class="string"><span class="delimiter">"</span><span class="content">Total pointers: </span><span class="delimiter">"</span></span> + mActivePointers.size(), <span class="integer">10</span>, <span class="integer">40</span> , textPaint);
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add this view to the layout of your activity.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;RelativeLayout</span>
+    <span class="attribute-name">xmlns:android</span>=<span class="string"><span class="delimiter">"</span><span class="content">http://schemas.android.com/apk/res/android</span><span class="delimiter">"</span></span>
+    <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+    <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span><span class="tag">&gt;</span>
+
+    <span class="tag">&lt;com.vogella.android.multitouch.MultitouchView</span>
+        <span class="attribute-name">android:layout_width</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="attribute-name">android:layout_height</span>=<span class="string"><span class="delimiter">"</span><span class="content">match_parent</span><span class="delimiter">"</span></span>
+        <span class="tag">/&gt;</span>
+
+<span class="tag">&lt;/RelativeLayout&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Your generated activity can remain the same.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">com.vogella.android.multitouch</span>;
+
+<span class="keyword">import</span> <span class="include">android.app.Activity</span>;
+<span class="keyword">import</span> <span class="include">android.os.Bundle</span>;
+<span class="keyword">import</span> <span class="include">android.view.Menu</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MainActivity</span> <span class="directive">extends</span> Activity {
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> onCreate(Bundle savedInstanceState) {
+        <span class="local-variable">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">boolean</span> onCreateOptionsMenu(<span class="predefined-type">Menu</span> menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run your application you will be able to draw on the
+screen with your fingers. Every device has an upper limit how many
+pointers are supported, test out how many simultaneous pointers your
+device supports. This application should look similar to the following
+screenshot.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./Handling single and multi touch on Android - Tutorial_files/xmultitouch_exercise10.png.pagespeed.ic.HzI68IfAYU.webp" alt="Multitouch exercise" data-pagespeed-url-hash="2542743721" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+</div>
+</div>
+<!-- Responsive Lake Quincy Ads -->
+<div id="ad-inBetween02" data-google-query-id="CLDhn6GLrtUCFRoYjgodNTsK8w">
+	<script type="text/javascript">googletag.cmd.push(function(){googletag.display('ad-inBetween02');});</script>
+<div id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween02_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween02_0" title="3rd party ad content" name="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/inbetween02_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(4).html"></iframe></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="exercise-using-scalegesturedetector"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#exercise-using-scalegesturedetector">5. Exercise: Using ScaleGestureDetector</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create the Android project called <em>de.vogella.android.touch.scaledetector</em> with an activity called <em>ScaleDetectorTestActivity</em>.</p>
+</div>
+<div class="paragraph">
+<p>Create the following class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">de.vogella.android.touch.scaledetector</span>;
+
+<span class="keyword">import</span> <span class="include">android.content.Context</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.Canvas</span>;
+<span class="keyword">import</span> <span class="include">android.graphics.drawable.Drawable</span>;
+<span class="keyword">import</span> <span class="include">android.view.MotionEvent</span>;
+<span class="keyword">import</span> <span class="include">android.view.ScaleGestureDetector</span>;
+<span class="keyword">import</span> <span class="include">android.view.View</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ImageViewWithZoom</span> <span class="directive">extends</span> <span class="predefined-type">View</span> {
+    <span class="directive">private</span> Drawable image;
+    <span class="directive">private</span> <span class="type">float</span> scaleFactor = <span class="float">1.0f</span>;
+    <span class="directive">private</span> ScaleGestureDetector scaleGestureDetector;
+
+    <span class="directive">public</span> ImageViewWithZoom(<span class="predefined-type">Context</span> context) {
+        <span class="local-variable">super</span>(context);
+        image = context.getResources().getDrawable(R.drawable.icon);
+        setFocusable(<span class="predefined-constant">true</span>);
+        image.setBounds(<span class="integer">0</span>, <span class="integer">0</span>, image.getIntrinsicWidth(),
+                image.getIntrinsicHeight());
+        scaleGestureDetector = <span class="keyword">new</span> ScaleGestureDetector(context,
+                <span class="keyword">new</span> ScaleListener());
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> onDraw(<span class="predefined-type">Canvas</span> canvas) {
+        <span class="local-variable">super</span>.onDraw(canvas);
+        <span class="comment">// Set the image bounderies</span>
+        canvas.save();
+        canvas.scale(scaleFactor, scaleFactor);
+        image.draw(canvas);
+        canvas.restore();
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">boolean</span> onTouchEvent(MotionEvent event) {
+        scaleGestureDetector.onTouchEvent(event);
+        invalidate();
+        <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+    }
+
+    <span class="directive">private</span> <span class="type">class</span> <span class="class">ScaleListener</span> <span class="directive">extends</span>
+            ScaleGestureDetector.SimpleOnScaleGestureListener {
+        <span class="annotation">@Override</span>
+        <span class="directive">public</span> <span class="type">boolean</span> onScale(ScaleGestureDetector detector) {
+            scaleFactor *= detector.getScaleFactor();
+
+            <span class="comment">// don't let the object get too small or too large.</span>
+            scaleFactor = <span class="predefined-type">Math</span>.max(<span class="float">0.1f</span>, <span class="predefined-type">Math</span>.min(scaleFactor, <span class="float">5.0f</span>));
+
+            invalidate();
+            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add this view to your activity.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">de.vogella.android.touch.scaledetector</span>;
+
+<span class="keyword">import</span> <span class="include">android.app.Activity</span>;
+<span class="keyword">import</span> <span class="include">android.os.Bundle</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ScaleDetectorTestActivity</span> <span class="directive">extends</span> Activity {
+    <span class="comment">/** Called when the activity is first created. */</span>
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="type">void</span> onCreate(Bundle savedInstanceState) {
+        <span class="local-variable">super</span>.onCreate(savedInstanceState);
+        setContentView(<span class="keyword">new</span> ImageViewWithZoom(<span class="local-variable">this</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run your application you should be able to shrink and enlarge the image via a multi-touch gesture (pitch zoom).</p>
+</div>
+<script async="" src="./Handling single and multi touch on Android - Tutorial_files/adsbygoogle.js.download"></script>
+<!-- Responsive - Before Support -->
+<ins class="adsbygoogle" style="display: block; height: 90px;" data-ad-client="ca-pub-3851443674951530" data-ad-slot="2058601532" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:920px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:920px;background-color:transparent"><iframe width="920" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;width:920px;height:90px;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(5).html"></iframe></ins></ins></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="about-this-website"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#about-this-website">6. About this website</a></h2>
+<div class="sectionbody">
+<div class="about_vogella_container">
+    <div class="about_vogella">
+    	<a href="http://www.vogella.com/support.html">
+            <h1>Support free content</h1>
+            <img src="./Handling single and multi touch on Android - Tutorial_files/donate.svg" alt="Support free tutorials" title="Support free tutorials" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;Donations&#39;, &#39;clicked&#39;, &#39;Buttom tutorial in thank you&#39;]);" data-pagespeed-url-hash="224550210" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+		</a>
+	</div>
+	<div class="about_vogella">
+    	<a href="http://www.vogella.com/contact.html">
+            <h1>Questions and discussion</h1>
+            <img src="./Handling single and multi touch on Android - Tutorial_files/discussions.svg" alt="Questions and discussion" title="Questions and discussion" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;Questions&#39;, &#39;clicked&#39;, &#39;Buttom tutorial in thank you&#39;]);" data-pagespeed-url-hash="2503203248" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+		</a>
+	</div>
+	<div class="about_vogella">
+    	<a href="http://www.vogella.com/license.html">
+            <h1>Tutorial &amp; code license</h1>
+            <img src="./Handling single and multi touch on Android - Tutorial_files/license_new.svg" alt="License" title="License" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;License&#39;, &#39;clicked&#39;, &#39;Buttom tutorial in thank you&#39;]);" data-pagespeed-url-hash="1066621155" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+		</a>
+	</div>
+	<div class="about_vogella">
+    	<a href="http://www.vogella.com/code/index.html">
+            <h1>Get the source code</h1>
+            <img src="./Handling single and multi touch on Android - Tutorial_files/sourcecode.svg" alt="Source Code" title="Source Code" onclick="_gaq.push([&#39;_trackEvent&#39;, &#39;Source Code&#39;, &#39;clicked&#39;, &#39;Buttom tutorial in thank you&#39;]);" data-pagespeed-url-hash="1272992667" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+		</a>
+	</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links-and-literature"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#links-and-literature">7. Links and Literature</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="android-touch-resources"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#android-touch-resources">7.1. Android Touch resources</a></h3>
+<div class="paragraph">
+<p><a href="http://android-developers.blogspot.de/2010/06/making-sense-of-multitouch.html">Google blog post about touch and multi touch</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="android-resources"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#android-resources">7.2. Android Resources</a></h3>
+<div class="paragraph">
+<p><a href="http://www.vogella.com/tutorials/AndroidListView/article.html">Android ListView and ListActivity</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.vogella.com/tutorials/AndroidLocationAPI/article.html">Android Location API and Google Maps</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.vogella.com/tutorials/AndroidIntent/article.html">Android Intents</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.vogella.com/tutorials/AndroidNetworking/article.html">Android and Networking</a></p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.android.com/intl/de_de/">Android Homepage</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://developer.android.com/">Android Developer Homepage</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://code.google.com/p/android/issues/list">Android Issues / Bugs</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://groups.google.com/group/android-developers">Android Google Groups</a></p>
+</div>
+<div class="paragraph">
+<p><a href="https://developer.android.com/studio/write/image-asset-studio.html">Android Assets Studio</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vogella-gmbh-training-and-consulting-support"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#vogella-gmbh-training-and-consulting-support">7.3. vogella GmbH training and consulting support</a></h3>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><a href="http://www.vogella.com/training/">TRAINING</a></th>
+<th class="tableblock halign-left valign-top"><a href="http://www.vogella.com/consulting/">SERVICE &amp; SUPPORT</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The vogella company provides comprehensive <a href="http://www.vogella.com/training/">training and education services</a>
+from experts in the areas of Eclipse RCP, Android, Git, Java, Gradle and Spring.
+We offer both public and inhouse training. Whichever course you decide to take, you are guaranteed to experience
+what many before you refer to as <a href="http://www.vogella.com/training/">“The best IT class I have ever attended”</a>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The vogella company offers <a href="http://www.vogella.com/consulting/">expert consulting</a> services, development support and coaching.
+Our customers range from Fortune 100 corporations to individual developers.</p></td>
+</tr>
+</tbody>
+</table>
+<div id="ad-afterResources" data-google-query-id="CLLhn6GLrtUCFRoYjgodNTsK8w">
+	<script type="text/javascript">googletag.cmd.push(function(){googletag.display('ad-afterResources');});</script>
+<div id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/afterresources_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/afterresources_0" title="3rd party ad content" name="google_ads_iframe_/6839/lqm.javaeclipseandroid.site/afterresources_0" width="728" height="90" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" src="./Handling single and multi touch on Android - Tutorial_files/saved_resource(6).html"></iframe></div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="copyright-and-license"><a class="link" href="http://www.vogella.com/tutorials/AndroidTouch/article.html#copyright-and-license">Appendix A: Copyright and License</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copyright © 2012-2017 vogella GmbH.
+Free use of the software examples is granted under the terms of the EPL License.
+This tutorial is published under the  <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/de/deed.en">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Germany</a> license.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="http://www.vogella.com/license.html">Licence</a>.</p>
+</div>
+<img src="./Handling single and multi touch on Android - Tutorial_files/f7e6567a9de743b2ad5ec242a4fc18bf" width="1" height="1" alt="" data-pagespeed-url-hash="1934011643" onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 1.5<br>
+Last updated 2017-07-11 22:37:35 +02:00
+</div>
+</div>
+<script data-pagespeed-no-defer="">//<![CDATA[
+(function(){window.pagespeed=window.pagespeed||{};var f=window.pagespeed;function h(e,a,c,b){this.f=e;this.a=a;this.b=c;this.g=b}f.beaconUrl="";
+function k(e){var a=e.f,c=window.mod_pagespeed_start,b=Number(new Date)-c,a=a+(-1==a.indexOf("?")?"?":"&"),a=a+"ets="+("load"==e.a?"load:":"unload:"),a=a+b;if("beforeunload"!=e.a||!window.mod_pagespeed_loaded){a+="&r"+e.a+"=";if(window.performance){var b=window.performance.timing,d=b.navigationStart,g=b.requestStart,a=a+(b[e.a+"EventStart"]-d),a=a+("&nav="+(b.fetchStart-d)),a=a+("&dns="+(b.domainLookupEnd-b.domainLookupStart)),a=a+("&connect="+(b.connectEnd-b.connectStart)),a=a+("&req_start="+(g-
+d)),a=a+("&ttfb="+(b.responseStart-g)),a=a+("&dwld="+(b.responseEnd-b.responseStart)),a=a+("&dom_c="+(b.domContentLoadedEventStart-d));window.performance.navigation&&(a+="&nt="+window.performance.navigation.type);d=-1;b.msFirstPaint?d=b.msFirstPaint:window.chrome&&window.chrome.loadTimes&&(d=Math.floor(1E3*window.chrome.loadTimes().firstPaintTime));d=d-g;0<=d&&(a+="&fp="+d)}else a+=b;f.getResourceTimingData&&window.parent==window&&(a+=f.getResourceTimingData());a+=window.parent!=window?"&ifr=1":"&ifr=0";
+"load"==e.a&&(window.mod_pagespeed_loaded=!0,(b=window.mod_pagespeed_num_resources_prefetched)&&(a+="&nrp="+b),(b=window.mod_pagespeed_prefetch_start)&&(a+="&htmlAt="+(c-b)));f.panelLoader&&(c=f.panelLoader.getCsiTimingsString(),""!=c&&(a+="&b_csi="+c));f.criticalCss&&(c=f.criticalCss,a+="&ccis="+c.total_critical_inlined_size+"&cces="+c.total_original_external_size+"&ccos="+c.total_overhead_size+"&ccrl="+c.num_replaced_links+"&ccul="+c.num_unreplaced_links);a+="&dpr="+window.devicePixelRatio;""!=
+e.b&&(a+=e.b);document.referrer&&(a+="&ref="+encodeURIComponent(document.referrer));a+="&url="+encodeURIComponent(e.g);f.beaconUrl=a;(new Image).src=a}}f.c=function(e,a,c,b){var d=new h(e,a,c,b);window.addEventListener?window.addEventListener(a,function(){k(d)},!1):window.attachEvent("on"+a,function(){k(d)})};f.addInstrumentationInit=f.c;})();
+
+pagespeed.addInstrumentationInit('/mod_pagespeed_beacon', 'load', '', 'http://www.vogella.com/tutorials/AndroidTouch/article.html');
+//]]></script>
+</body></html>
